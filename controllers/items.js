@@ -6,16 +6,16 @@ const getAllItems = async (req, res) => {
   const userId = req.user._id;
   const items = await Item.find({ createdBy: userId }).sort("createdAt");
 
-  lowStockItems = items.filter((item) => item.quantity <= 5);
+  let info = null;
+  const lowStockItems = items.filter((item) => item.quantity <= 5);
   if (lowStockItems.length > 0) {
-    req.flash(
-      "info",
+    info = [
       "The following items are low in stock: " +
-        lowStockItems.map((item) => item.name).join(", "),
-    );
+        lowStockItems.map((item) => item.name),
+    ];
   }
 
-  res.render("items", { items });
+  res.render("items", { items, info });
 };
 const createItem = async (req, res) => {
   req.body.createdBy = req.user._id;
