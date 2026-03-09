@@ -1,0 +1,9 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+<% if (user) { %>
+<a href="/items"><button>Inventory page</button></a>
+<% } else { %>
+<a href="/sessions/logon"><button>Logon</button></a>
+<a href="/sessions/register"><button>Register</button></a>
+<% } %>
+<%- include("partials/footer.ejs") %>

@@ -1,0 +1,36 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+<h2>Item</h2>
+<form method="POST"
+    action="/items/<%= !item ? "" : "update/" + item.id %>"
+    style="display: inline">
+  <div>
+    <label for="name">name:</label>
+    <input type="text" id="name" name="name" placeholder="<%= item && item.name %>"/>
+  </div>
+  <div>
+    <label for="description">description:</label>
+    <input type="text" id="description" name="description" placeholder="<%= item && item.description %>"/>
+  </div>
+  <div>
+    <label for="quantity">quantity:</label>
+    <input type="number" id="quantity" name="quantity" placeholder="<%= item && item.quantity %>"/>
+  </div>
+  <div>
+    <label for="category">category:</label>
+    <select id="category" name="category">
+      <option value="clothing" <%= item && item.category === "clothing" && "selected" %> >clothing</option>
+      <option value="electronics" <%= item && item.category === "electronics" && "selected" %> >electronics</option>
+      <option value="furniture" <%= item && item.category === "furniture" && "selected" %> >furniture</option>
+      <option value="toys" <%= item && item.category === "toys" && "selected" %> >toys</option>
+      <option value="books" <%= item && item.category === "books" && "selected" %> >books</option>
+      <option value="other" <%= item && item.category === "other" && "selected" %> >other</option>
+    </select>
+  </div>
+    <button><%= !item ? "add" : "update" %></button>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+</form>
+<a href="/items">
+  <button type="button">back</button>
+</a>
+<%- include("partials/footer.ejs") %>
