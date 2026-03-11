@@ -85,10 +85,10 @@ npm run
 _(Protected - requires authentication)_
 
 - `GET /items` - View all items
-- `GET /items/:id` - View specific item
+- `GET /items/edit/:id` - View specific item
 - `POST /items` - Create new item
-- `PUT /items/:id` - Update item
-- `DELETE /items/:id` - Delete item
+- `POST /items/update/:id` - Update item
+- `POST /items/delete/:id` - Delete item
 
 ### Home
 
