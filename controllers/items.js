@@ -36,10 +36,6 @@ const createItem = async (req, res) => {
       const userItem = await Item.create(req.body);
       req.flash("info", "Item successfully added to database.");
       res.redirect("/items");
-      res.render("item", {
-        errors: req.flash("errors"),
-        info: req.flash("info"),
-      });
     }
   } catch (e) {
     if (e.constructor.name === "ValidationError") {
@@ -100,10 +96,6 @@ const updateItem = async (req, res) => {
       next(e);
     }
     res.redirect("/items/new");
-    res.render("item", {
-      errors: req.flash("errors"),
-      info: req.flash("info"),
-    });
   }
 };
 const deleteItem = async (req, res) => {
