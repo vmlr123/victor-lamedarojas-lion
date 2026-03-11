@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const parseVErr = require("../utils/parseValidationErrs");
-const flash = require("connect-flash");
+const passport = require("passport");
 
 const registerShow = (req, res) => {
   res.render("register");
@@ -9,10 +9,15 @@ const registerShow = (req, res) => {
 const registerDo = async (req, res, next) => {
   if (req.body.password != req.body.password1) {
     req.flash("error", "The passwords entered do not match.");
-    return res.render("register", { errors: flash("errors") });
+    res.redirect("/sessions/register");
+    return res.render("register", { errors: req.flash("errors") });
   }
   try {
-    await User.create(req.body);
+    const user = await User.create(req.body);
+    req.login(user, (err) => {
+      if (err) return next(err);
+      return res.redirect("/");
+    });
   } catch (e) {
     if (e.constructor.name === "ValidationError") {
       parseVErr(e, req);
@@ -21,9 +26,9 @@ const registerDo = async (req, res, next) => {
     } else {
       return next(e);
     }
-    return res.render("register", { errors: flash("errors") });
+    res.redirect("/sessions/register");
+    return res.render("register", { errors: req.flash("errors") });
   }
-  res.redirect("/");
 };
 
 const logoff = (req, res) => {
