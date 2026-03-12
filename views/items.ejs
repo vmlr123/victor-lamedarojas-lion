@@ -11,20 +11,22 @@
   </tr>
   <% if (items && items.length) { %>
   <% items.forEach((item) => { %>
-  <tr>
+  <tr
+    style="<%= item.quantity <= 5 ? 'background-color: rgb(255, 193, 7);' : '' %>"
+  >
     <td><%= item.name %></td>
     <td><%= item.description %></td>
     <td><%= item.quantity %></td>
     <td><%= item.category %></td>
     <td>
-      <a href="/items/edit/<%= item.id %>">
+      <a href="/items/edit/<%= item._id %>">
         <button type="button">Edit</button>
       </a>
     </td>
     <td>
       <form
         method="POST"
-        action="/items/delete/<%= item.id %>"
+        action="/items/delete/<%= item._id %>"
         style="display: inline; margin: 0; padding: 0"
       >
         <button>Delete</button>
