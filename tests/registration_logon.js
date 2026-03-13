@@ -47,8 +47,6 @@ describe("tests for registration and logon", function () {
       .set("content-type", "application/x-www-form-urlencoded")
       .send(dataToPost);
     const res = await req;
-    console.log(res);
-
     expect(res).to.have.status(200);
     expect(res).to.have.property("text");
     expect(res.text).to.include("Inventory Management");

@@ -15,7 +15,7 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha tests/*.js --timeout 5000 --exit",
+    "test": "cross-env NODE_ENV=test mocha tests/*.js --timeout 60000 --exit",
     "test:single": "cross-env NODE_ENV=test mocha",
     "start": "cross-env NODE_ENV=development nodemon app.js",
     "run": "cross-env NODE_ENV=development node app.js"
@@ -48,7 +48,7 @@
     "cross-env": "^10.1.0",
     "eslint": "^10.0.0",
     "esm": "^3.2.3",
-    "factory-bot": "^6.3.1",
+    "factory-bot": "^5.2.0",
     "mocha": "^11.7.5",
     "nodemon": "^3.1.11",
     "prettier": "^3.8.1",

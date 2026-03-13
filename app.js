@@ -124,6 +124,6 @@ const start = () => {
   }
 };
 
-// start(); // Commented for tests
+start();
 
 module.exports = { app };
