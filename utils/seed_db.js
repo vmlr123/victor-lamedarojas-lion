@@ -1,6 +1,7 @@
 const Item = require("../models/Item");
 const User = require("../models/User");
-const faker = require("@faker-js/faker").fakerEN_US;
+const { faker } = require("@faker-js/faker/locale/en");
+
 const FactoryBot = require("factory-bot");
 require("dotenv").config();
 
@@ -19,7 +20,7 @@ factory.define("item", Item, {
 });
 
 factory.define("user", User, {
-  name: () => faker.person.fullName(),
+  name: () => faker.name.fullName(),
   email: () => faker.internet.email(),
   password: () => faker.internet.password(),
 });
