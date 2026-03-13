@@ -50,6 +50,8 @@ describe("tests for registration and logon", function () {
     expect(res).to.have.status(200);
     expect(res).to.have.property("text");
     expect(res.text).to.include("Inventory Management");
+    expect(res.text).to.include("Logon");
+    expect(res.text).to.include("Register");
     newUser = await User.findOne({ email: this.user.email });
     expect(newUser).to.not.be.null;
   });
@@ -90,5 +92,24 @@ describe("tests for registration and logon", function () {
     expect(res).to.have.status(200);
     expect(res).to.have.property("text");
     expect(res.text).to.include(this.user.name);
+  });
+
+  it("should log the user off", async () => {
+    const { expect, request } = await get_chai();
+    const cookieParts = [
+      this.csrfCookie.split(";")[0],
+      this.sessionCookie.split(";")[0],
+    ].filter(Boolean);
+    const req = request
+      .execute(app)
+      .post("/sessions/logoff")
+      .set("Cookie", cookieParts.join("; "))
+      .set("content-type", "application/x-www-form-urlencoded")
+      .send({ _csrf: this.csrfToken });
+    const res = await req;
+    expect(res).to.have.status(200);
+    expect(res).to.have.property("text");
+    expect(res.text).to.include("Logon");
+    expect(res.text).to.include("Register");
   });
 });
