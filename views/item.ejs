@@ -2,6 +2,7 @@
 <%- include("partials/header.ejs") %>
 <h2>Item</h2>
 <form method="POST"
+    id="addItemForm"
     action="/items/<%= !item ? "" : "update/" + item.id %>"
     style="display: inline">
   <div>
