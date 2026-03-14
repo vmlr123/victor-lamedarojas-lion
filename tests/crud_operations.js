@@ -62,8 +62,6 @@ describe("should test CRUD operations", function () {
 
     const pageParts = res.text.split(/<tr[^>]*>/).length;
 
-    console.log(res.text.split(/<tr[^>]*>/));
-
     expect(pageParts).to.equal(22);
 
     const items = await Item.find({ createdBy: this.test_user._id });
