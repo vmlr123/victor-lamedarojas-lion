@@ -78,7 +78,7 @@ npm run
 - `POST /sessions/register` - Register new user
 - `GET /sessions/logon` - Login page
 - `POST /sessions/logon` - Login user
-- `GET /sessions/logout` - Logout user
+- `POST /sessions/logoff` - Logout user
 
 ### Items Routes (`/items`)
 
@@ -86,6 +86,7 @@ _(Protected - requires authentication)_
 
 - `GET /items` - View all items
 - `GET /items/edit/:id` - View specific item
+- `GET /items/new` - New Item Form
 - `POST /items` - Create new item
 - `POST /items/update/:id` - Update item
 - `POST /items/delete/:id` - Delete item
