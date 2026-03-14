@@ -11,8 +11,8 @@ const factoryAdapter = new FactoryBot.MongooseAdapter();
 factory.setAdapter(factoryAdapter);
 factory.define("item", Item, {
   name: () => faker.commerce.productName(),
-  description: () => faker.commerce.productDescription(),
-  quantity: () => faker.number.int({ min: 0, max: 100 }),
+  description: () => faker.commerce.productDescription().slice(0, 99),
+  quantity: () => faker.datatype.number({ min: 0, max: 100 }),
   category: () =>
     ["clothing", "electronics", "furniture", "toys", "books", "other"][
       Math.floor(6 * Math.random())
@@ -31,6 +31,7 @@ const seed_db = async () => {
     const mongoURL = process.env.MONGO_URI_TEST;
     await Item.deleteMany({});
     await User.deleteMany({});
+
     testUser = await factory.create("user", { password: testUserPassword });
     await factory.createMany("item", 20, { createdBy: testUser._id });
   } catch (e) {
