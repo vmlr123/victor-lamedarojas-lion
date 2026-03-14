@@ -6,7 +6,7 @@ const ItemSchema = new mongoose.Schema(
       type: String,
       required: [true, "Item name is required."],
       minlength: [3, "Item name must be at least 3 characters long."],
-      maxlength: [50, "Item name must be at least 30 characters long."],
+      maxlength: [50, "Item name must be less than 50 characters long."],
     },
     description: {
       type: String,

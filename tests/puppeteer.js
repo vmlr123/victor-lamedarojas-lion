@@ -1,7 +1,8 @@
 const puppeteer = require("puppeteer");
 require("../app");
-const { seed_db, testUserPassword } = require("../utils/seed_db");
+const { factory, seed_db, testUserPassword } = require("../utils/seed_db");
 const Item = require("../models/Item");
+const User = require("../models/User");
 
 let testUser = null;
 
@@ -11,7 +12,6 @@ let browser = null;
 describe("victor-lamedarojas-lion puppeteer test", function () {
   before(async function () {
     this.timeout(10000);
-    //await sleeper(5000)
     browser = await puppeteer.launch();
     page = await browser.newPage();
     await page.goto("http://localhost:3000");
@@ -54,6 +54,63 @@ describe("victor-lamedarojas-lion puppeteer test", function () {
         "p ::-p-text(Victor Manuel Lameda Rojas. All rights reserved.)",
       );
       const copyrText = await copyr.evaluate((el) => el.textContent);
+    });
+  });
+  describe("puppeteer job operations", function () {
+    it("should click the link to the inventory", async () => {
+      this.inventoryLink = await page.waitForSelector(
+        "button ::-p-text(Inventory page)",
+      );
+      await this.inventoryLink.click();
+      await page.waitForNavigation();
+    });
+    it("should click the add an inventory item button", async () => {
+      const { expect } = await import("chai");
+
+      this.addItemPageButton = await page.waitForSelector('a[href="/items/new');
+      await this.addItemPageButton.click();
+      await page.waitForNavigation();
+      this.addItemForm = await page.waitForSelector("#addItemForm");
+      expect(this.addItemForm).to.not.be.null;
+
+      this.name = await page.waitForSelector("#name");
+      this.description = await page.waitForSelector("#description");
+      this.quantity = await page.waitForSelector("#quantity");
+      this.category = await page.waitForSelector("#category");
+    });
+    it("should type some values into the form fields then add item", async () => {
+      const { expect } = await import("chai");
+
+      this.item = await factory.build("item");
+
+      await this.name.type(this.item.name);
+      await this.description.type(this.item.description);
+      await this.quantity.type(String(this.item.quantity));
+      await this.category.select(this.item.category);
+
+      //click add button
+      this.timeout(60000);
+      this.addItemButton = await page.waitForSelector("button ::-p-text(add)");
+      this.addItemButton.click();
+      await page.waitForNavigation();
+
+      this.message = await page.waitForSelector("div ::-p-text(Info:)");
+      const content = await page.$eval(
+        "div ::-p-text(Info:)",
+        (element) => element.textContent,
+      );
+      expect(content).to.include("Item successfully added to database.");
+
+      const latestItem = await Item.findOne({
+        name: this.item.name,
+        description: this.item.description,
+        quantity: this.item.quantity,
+        category: this.item.category,
+      });
+      expect(latestItem).to.have.property("name");
+      expect(latestItem).to.have.property("description");
+      expect(latestItem).to.have.property("quantity");
+      expect(latestItem).to.have.property("category");
     });
   });
 });
